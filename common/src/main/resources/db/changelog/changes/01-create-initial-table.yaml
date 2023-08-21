@@ -1,0 +1,15 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 1
+      author: stoyan
+      changes:
+        - createTable:
+            tableName: test
+            columns:
+              - column:
+                  name: id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
