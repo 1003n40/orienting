@@ -1,0 +1,57 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 1
+      author: Stoyan
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password_hash
+                  type: nvarchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: identifier
+                  type: nvarchar(72)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: identifier_type
+                  type: nvarchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: nvarchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: nvarchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ucn
+                  type: nvarchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: nvarchar(10)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: role
+                  type: nvarchar(10)
+                  constraints:
+                    nullable: false

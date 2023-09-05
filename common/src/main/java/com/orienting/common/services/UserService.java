@@ -16,4 +16,9 @@ public class UserService {
     public List<UserEntity> listUsers() {
         return userRepository.findAll();
     }
+
+    public UserEntity createUser() {
+        UserEntity entity = new UserEntity("sd", "testid", "idtype", "asd", "asd", "asd", "asd", "trainer");
+        return userRepository.save(entity);
+    }
 }

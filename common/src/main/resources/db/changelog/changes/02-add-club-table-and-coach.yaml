@@ -1,0 +1,128 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 2
+      author: Stoyan
+      changes:
+        - createTable:
+            tableName: clubs
+            columns:
+              - column:
+                  name: id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: club_name
+                  type: nvarchar(32)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: city
+                  type: nvarchar(32)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users_clubs
+            columns:
+              - column: # This could hold more composite data pointing to other tables...
+                  name: user_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+                    references: users(id)
+                    foreignKeyName: fk_users_clubs
+                    deleteCascade: true
+              - column:
+                  name: club_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: false # If set to true we can have only one coach per club
+                    references: clubs(id)
+                    foreignKeyName: fk_clubs_users
+                    deleteCascade: true
+        - createTable:
+            tableName: contests
+            columns:
+              - column:
+                  name: id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: nvarchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: true # Date could not be yet published when event is created
+              - column:
+                  name: location
+                  type: nvarchar(256)
+                  constraints:
+                    nullable: true # Location could not be yet published when event is created
+        - createTable:
+            tableName: coaches
+            columns:
+              - column:
+                  name: id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true # If set to true we can have only one coach per club
+                    references: users(id)
+                    foreignKeyName: fk_users_coaches
+                    deleteCascade: true
+              - column:
+                  name: club_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: false # If set to true we can have only one coach per club
+                    references: clubs(id)
+                    foreignKeyName: fk_clubs_coaches
+                    deleteCascade: true
+
+        - createTable:
+            tableName: users_contests
+            columns:
+              - column:
+                  name: user_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true # One user can participate in one competition
+                    references: users(id)
+                    foreignKeyName: fk_users_contests_users
+                    deleteCascade: true
+              - column:
+                  name: contest_id
+                  type: nvarchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: false # Many users can participate in one contest
+                    references: contests(id)
+                    foreignKeyName: fk_users_contests_contests
+                    deleteCascade: true
