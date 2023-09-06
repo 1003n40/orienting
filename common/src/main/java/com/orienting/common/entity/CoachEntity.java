@@ -1,6 +1,7 @@
 package com.orienting.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,13 +15,7 @@ public class CoachEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private UserEntity user;
-
     @ManyToOne
     @JoinColumn(name = "club_id")
-    @JsonBackReference
     private ClubEntity club;
 }

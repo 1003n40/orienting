@@ -1,6 +1,8 @@
 package com.orienting.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -41,26 +43,20 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable( //
             name = "users_contests", //
             joinColumns = @JoinColumn(name = "user_id"), //
             inverseJoinColumns = @JoinColumn(name = "contest_id") //
     )
-    @JsonManagedReference
-    // When serializing the object we should use DTOs, when not using DTOs for testing for example use @JsonManagedReference
-    // or @JsonBackReference, otherwise it will make indefinite recursion while serializing.
     private Set<ContestEntity> contests;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_clubs", //
             joinColumns = @JoinColumn(name = "user_id"), //
             inverseJoinColumns = @JoinColumn(name = "club_id")
     )
-    @JsonManagedReference
-    // When serializing the object we should use DTOs, when not using DTOs for testing for example use @JsonManagedReference
-    // or @JsonBackReference, otherwise it will make indefinite recursion while serializing.
     private Set<ClubEntity> clubs;
 
     public UserEntity() {
