@@ -28,13 +28,13 @@ databaseChangeLog:
         - createTable:
             tableName: users_clubs
             columns:
-              - column: # This could hold more composite data pointing to other tables...
+              - column:
                   name: user_id
                   type: nvarchar(36)
                   constraints:
                     primaryKey: true
                     nullable: false
-                    unique: true
+                    unique: true # This would mean that the user could participate in only club
                     references: users(id)
                     foreignKeyName: fk_users_clubs
                     deleteCascade: true
@@ -44,10 +44,14 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    unique: false # If set to true we can have only one coach per club
+                    unique: false
                     references: clubs(id)
                     foreignKeyName: fk_clubs_users
                     deleteCascade: true
+        - addUniqueConstraint: # User is already unique, so he can't participate in two clubs, also we want to verify that only one entry of this user + club is present
+            tableName: users_clubs
+            columnNames: user_id, club_id
+            constraintName: unique_user_club
         - createTable:
             tableName: contests
             columns:
@@ -88,7 +92,7 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    unique: true # If set to true we can have only one coach per club
+                    unique: true
                     references: users(id)
                     foreignKeyName: fk_users_coaches
                     deleteCascade: true
@@ -98,11 +102,14 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    unique: false # If set to true we can have only one coach per club
+                    unique: true # We want this as we want to have only one coach per club.
                     references: clubs(id)
                     foreignKeyName: fk_clubs_coaches
                     deleteCascade: true
-
+        - addUniqueConstraint: # Not needed but just in case
+            tableName: coaches
+            columnNames: user_id, club_id
+            constraintName: unique_user_coach
         - createTable:
             tableName: users_contests
             columns:

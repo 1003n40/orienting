@@ -51,13 +51,13 @@ public class UserEntity {
     )
     private Set<ContestEntity> contests;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinTable(
             name = "users_clubs", //
             joinColumns = @JoinColumn(name = "user_id"), //
-            inverseJoinColumns = @JoinColumn(name = "club_id")
+            inverseJoinColumns = @JoinColumn(name = "club_id") //
     )
-    private Set<ClubEntity> clubs;
+    private ClubEntity club;
 
     public UserEntity() {
     }

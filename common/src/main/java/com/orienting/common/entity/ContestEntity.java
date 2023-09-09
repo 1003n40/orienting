@@ -1,13 +1,9 @@
 package com.orienting.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.Instant;
-import java.util.Set;
 
 @Data
 @Entity
